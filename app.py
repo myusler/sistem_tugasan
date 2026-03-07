@@ -6,8 +6,14 @@ from datetime import datetime
 app = Flask(__name__)
 
 # PostgreSQL untuk Render
-app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DATABASE_URL", "sqlite:///tasks.db")
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+database_url = os.getenv("DATABASE_URL", "sqlite:///tasks.db")
+
+# Fix untuk PostgreSQL Render (postgres -> postgresql)
+if database_url.startswith("postgres://"):
+    database_url = database_url.replace("postgres://", "postgresql://", 1)
+
+app.config["SQLALCHEMY_DATABASE_URI"] = database_url
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db = SQLAlchemy(app)
 
@@ -20,8 +26,9 @@ class Task(db.Model):
     repeat = db.Column(db.String(20))
     priority = db.Column(db.Integer, default=0)
 
+
 # FORMAT MASA 12 JAM
-@app.template_filter('format_time')
+@app.template_filter("format_time")
 def format_time(value):
     try:
         t = datetime.strptime(value, "%H:%M")
@@ -29,16 +36,20 @@ def format_time(value):
     except:
         return value
 
+
 # HALAMAN UTAMA
-@app.route('/')
+@app.route("/")
 def index():
     tasks = Task.query.order_by(Task.priority).all()
     return render_template("index.html", tasks=tasks)
 
+
 # TAMBAH TASK
-@app.route('/add', methods=["GET","POST"])
+@app.route("/add", methods=["GET", "POST"])
 def add_task():
+
     if request.method == "POST":
+
         title = request.form["title"]
         date = request.form["date"]
         time = request.form["time"]
@@ -58,8 +69,9 @@ def add_task():
 
     return render_template("add_task.html")
 
+
 # EDIT TASK
-@app.route('/edit/<int:id>', methods=["GET","POST"])
+@app.route("/edit/<int:id>", methods=["GET", "POST"])
 def edit_task(id):
 
     task = Task.query.get_or_404(id)
@@ -77,8 +89,9 @@ def edit_task(id):
 
     return render_template("edit_task.html", task=task)
 
+
 # DELETE TASK
-@app.route('/delete/<int:id>')
+@app.route("/delete/<int:id>")
 def delete_task(id):
 
     task = Task.query.get_or_404(id)
@@ -88,8 +101,9 @@ def delete_task(id):
 
     return redirect(url_for("index"))
 
-# SUSUN TASK
-@app.route('/priority/<int:id>/<int:value>')
+
+# SUSUN PRIORITY TASK
+@app.route("/priority/<int:id>/<int:value>")
 def change_priority(id, value):
 
     task = Task.query.get_or_404(id)
@@ -100,14 +114,11 @@ def change_priority(id, value):
     return redirect(url_for("index"))
 
 
+# CREATE TABLE + RUN LOCAL
 if __name__ == "__main__":
+
     with app.app_context():
         db.create_all()
 
-   import os
-
-if __name__ == "__main__":
     port = int(os.environ.get("PORT", 10000))
-    with app.app_context():
-        db.create_all()
     app.run(host="0.0.0.0", port=port)
