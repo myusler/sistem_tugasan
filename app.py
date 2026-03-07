@@ -1,6 +1,6 @@
+import os
 from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
-import os
 from datetime import datetime
 
 app = Flask(__name__)
