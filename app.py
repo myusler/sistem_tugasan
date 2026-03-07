@@ -106,18 +106,25 @@ def delete_task(id):
 
 
 # SUSUN PRIORITY TASK
-@app.route("/priority/<int:id>/<int:value>")
+# Sebelum:
+# @app.route("/priority/<int:id>/<int:value>")
+
+# Selepas:
+@app.route("/priority/<int:id>/<value>")
 def change_priority(id, value):
 
     task = Task.query.get_or_404(id)
 
-    task.priority = task.priority + value
+    # Tukar value ke integer
+    try:
+        value = int(value)
+    except ValueError:
+        value = 0
 
+    task.priority += value
     db.session.commit()
 
-    return redirect(url_for("index"))
-
-# CREATE TABLE + RUN LOCAL
+    return redirect(url_for("index"))# CREATE TABLE + RUN LOCAL
 if __name__ == "__main__":
 
 
