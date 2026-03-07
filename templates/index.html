@@ -21,10 +21,9 @@
 
 <a href="/delete/{{task.id}}" class="delete">Padam</a>
 
-<a href="/priority/{{task.id}}/-1">⬆</a>
+<a href="{{ url_for('change_priority', id=task.id, value=-1) }}">⬆</a>
 
-<a href="/priority/{{task.id}}/1">⬇</a>
-
+<a href="{{ url_for('change_priority', id=task.id, value=1) }}">⬇</a>
 </div>
 
 </div>

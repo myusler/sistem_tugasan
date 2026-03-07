@@ -110,12 +110,12 @@ def delete_task(id):
 def change_priority(id, value):
 
     task = Task.query.get_or_404(id)
-    task.priority += value
+
+    task.priority = task.priority + value
 
     db.session.commit()
 
     return redirect(url_for("index"))
-
 
 # CREATE TABLE + RUN LOCAL
 if __name__ == "__main__":
