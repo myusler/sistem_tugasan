@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h2>Tambah Tugasan</h2>
+
+<form method="POST">
+
+<input type="text" name="title" placeholder="Nama Tugasan" required>
+
+<input type="date" name="date">
+
+<input type="time" name="time">
+
+<select name="repeat">
+
+<option value="None">Tiada Ulangan</option>
+
+<option value="Daily">Harian</option>
+
+<option value="Weekly">Mingguan</option>
+
+</select>
+
+<button type="submit">Simpan</button>
+
+</form>
+
+{% endblock %}
