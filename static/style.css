@@ -4,6 +4,10 @@ font-family: Arial;
 background:#f4f6f8;
 margin:0;
 padding:0;
+background-image: url("gambar_background.avif");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
 
 }
 
