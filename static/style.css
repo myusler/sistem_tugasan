@@ -3,7 +3,7 @@ body{
 font-family: Arial;
 margin:0;
 padding:0;
-background-image: url("{{ url_for('static', filename='pic_background.jpg') }}");
+background-image: url("/static/pic_background.jpg");
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
