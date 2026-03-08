@@ -4,7 +4,7 @@ font-family: Arial;
 background:#f4f6f8;
 margin:0;
 padding:0;
-background-image: url("gambar_background.avif");
+background-image: url("static/pic_background.jpg");
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
@@ -27,7 +27,7 @@ text-align:center;
 
 .task{
 
-background:white;
+background:#f4f7c8;
 padding:15px;
 margin-top:15px;
 border-radius:10px;
